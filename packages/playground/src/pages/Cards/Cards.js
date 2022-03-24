@@ -25,7 +25,7 @@ getPaymentMethods({ amount, shopperLocale }).then(async paymentMethodsResponse =
         onSubmit: handleSubmit,
         onAdditionalDetails: handleAdditionalDetails,
         onError: handleError,
-        onChange: handleChange,
+        // onChange: handleChange,
         paymentMethodsConfiguration: {
             card: {
                 hasHolderName: true
@@ -33,94 +33,94 @@ getPaymentMethods({ amount, shopperLocale }).then(async paymentMethodsResponse =
         }
     });
 
-    // Stored Card
-    if (showComps.storedCard) {
-        if (checkout.paymentMethodsResponse.storedPaymentMethods && checkout.paymentMethodsResponse.storedPaymentMethods.length > 0) {
-            const storedCardData = checkout.paymentMethodsResponse.storedPaymentMethods[0];
-            window.storedCard = checkout.create('card', storedCardData).mount('.storedcard-field');
-        }
-    }
-
-    // Credit card with installments
-    if (showComps.card) {
-        window.card = checkout
-            .create('card', {
-                brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
-                installmentOptions: {
-                    mc: {
-                        values: [1, 2, 3]
-                    },
-                    visa: {
-                        values: [1, 2, 3, 4],
-                        plans: ['regular', 'revolving']
-                    }
-                },
-                showBrandsUnderCardNumber: true,
-                showInstallmentAmounts: true,
-                onError: obj => {
-                    console.log('### Cards::onError:: obj=', obj);
-                },
-                onBinLookup: obj => {
-                    console.log('### Cards::onBinLookup:: obj=', obj);
-                }
-            })
-            .mount('.card-field');
-    }
-
-    // Bancontact card
-    if (showComps.bcmcCard) {
-        window.bancontact = checkout.create('bcmc').mount('.bancontact-field');
-    }
-
-    // Credit card with AVS
-    if (showComps.avsCard) {
-        window.cardAvs = checkout
-            .create('card', {
-                type: 'scheme',
-                brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
-                enableStoreDetails: true,
-
-                // holderName config:
-                hasHolderName: true,
-                holderNameRequired: true,
-                holderName: 'J. Smith',
-                positionHolderNameOnTop: true,
-
-                // billingAddress config:
-                billingAddressRequired: true,
-                billingAddressAllowedCountries: ['US', 'CA', 'GB'],
-                // billingAddressRequiredFields: ['postalCode', 'country'],
-
-                // data:
-                data: {
-                    holderName: 'J. Smith',
-                    billingAddress: {
-                        street: 'Infinite Loop',
-                        postalCode: '95014',
-                        city: 'Cupertino',
-                        houseNumberOrName: '1',
-                        country: 'US',
-                        stateOrProvince: 'CA'
-                    }
-                },
-                onError: objdobj => {
-                    console.log('component level merchant defined error handler for Card objdobj=', objdobj);
-                }
-            })
-            .mount('.card-avs-field');
-    }
-
-    // Credit card with KCP Authentication
-    if (showComps.kcpCard) {
-        window.kcpCard = checkout
-            .create('card', {
-                type: 'scheme',
-                brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro', 'korean_local_card'],
-                configuration: {
-                    koreanAuthenticationRequired: true
-                },
-                countryCode: 'KR'
-            })
-            .mount('.card-kcp-field');
-    }
+    // // Stored Card
+    // if (showComps.storedCard) {
+    //     if (checkout.paymentMethodsResponse.storedPaymentMethods && checkout.paymentMethodsResponse.storedPaymentMethods.length > 0) {
+    //         const storedCardData = checkout.paymentMethodsResponse.storedPaymentMethods[0];
+    //         window.storedCard = checkout.create('card', storedCardData).mount('.storedcard-field');
+    //     }
+    // }
+    //
+    // // Credit card with installments
+    // if (showComps.card) {
+    window.card = checkout
+        .create('clicktopay', {
+            brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
+            // installmentOptions: {
+            //     mc: {
+            //         values: [1, 2, 3]
+            //     },
+            //     visa: {
+            //         values: [1, 2, 3, 4],
+            //         plans: ['regular', 'revolving']
+            //     }
+            // },
+            // showBrandsUnderCardNumber: true,
+            // showInstallmentAmounts: true,
+            onError: obj => {
+                console.log('### Cards::onError:: obj=', obj);
+            },
+            onBinLookup: obj => {
+                console.log('### Cards::onBinLookup:: obj=', obj);
+            }
+        })
+        .mount('.card-field');
+    // }
+    //
+    // // Bancontact card
+    // if (showComps.bcmcCard) {
+    // window.bancontact = checkout.create('bcmc').mount('.bancontact-field');
+    // }
+    //
+    // // Credit card with AVS
+    // if (showComps.avsCard) {
+    //     window.cardAvs = checkout
+    //         .create('card', {
+    //             type: 'scheme',
+    //             brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
+    //             enableStoreDetails: true,
+    //
+    //             // holderName config:
+    //             hasHolderName: true,
+    //             holderNameRequired: true,
+    //             holderName: 'J. Smith',
+    //             positionHolderNameOnTop: true,
+    //
+    //             // billingAddress config:
+    //             billingAddressRequired: true,
+    //             billingAddressAllowedCountries: ['US', 'CA', 'GB'],
+    //             // billingAddressRequiredFields: ['postalCode', 'country'],
+    //
+    //             // data:
+    //             data: {
+    //                 holderName: 'J. Smith',
+    //                 billingAddress: {
+    //                     street: 'Infinite Loop',
+    //                     postalCode: '95014',
+    //                     city: 'Cupertino',
+    //                     houseNumberOrName: '1',
+    //                     country: 'US',
+    //                     stateOrProvince: 'CA'
+    //                 }
+    //             },
+    //             onError: objdobj => {
+    //                 console.log('component level merchant defined error handler for Card objdobj=', objdobj);
+    //             }
+    //         })
+    //         .mount('.card-avs-field');
+    // }
+    //
+    // // Credit card with KCP Authentication
+    // if (showComps.kcpCard) {
+    //     window.kcpCard = checkout
+    //         .create('card', {
+    //             type: 'scheme',
+    //             brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro', 'korean_local_card'],
+    //             configuration: {
+    //                 koreanAuthenticationRequired: true
+    //             },
+    //             countryCode: 'KR'
+    //         })
+    //         .mount('.card-kcp-field');
+    // }
 });
